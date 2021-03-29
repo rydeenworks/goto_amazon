@@ -94,11 +94,14 @@ class _MyHomePageState extends State<MyHomePage> {
               leading: Image.asset('images/' + country[_worldUrl] + '.png'),
               title: Text('$_worldUrl'),
               onTap: () async {
-                final result = _worldUrl = await Navigator.push(
+                final result = await Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => WorldRoute()),
                 );
 
+                if (result == "") {
+                  return;
+                }
                 setState(() {
                   _worldUrl = result;
                 });
@@ -211,147 +214,158 @@ class _MyHomePageState extends State<MyHomePage> {
 class WorldRoute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Select Country'),
-      ),
-      body: ListView(
-        padding: EdgeInsets.all(16.0),
-        children: <Widget>[
-          ListTile(
-            leading: Image.asset('images/tr.png'),
-            title: Text('www.amazon.com.tr'),
-            onTap: () {
-              Navigator.pop(context, 'www.amazon.com.tr');
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pop(context, "");
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Select Country'),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context, "");
             },
           ),
-          ListTile(
-            leading: Image.asset('images/jp.png'),
-            title: Text('www.amazon.co.jp'),
-            onTap: () {
-              Navigator.pop(context, 'www.amazon.co.jp');
-            },
-          ),
-          ListTile(
-            leading: Image.asset('images/cn.png'),
-            title: Text('www.amazon.cn'),
-            onTap: () {
-              Navigator.pop(context, 'www.amazon.cn');
-            },
-          ),
-          ListTile(
-            leading: Image.asset('images/es.png'),
-            title: Text('www.amazon.es'),
-            onTap: () {
-              Navigator.pop(context, 'www.amazon.es');
-            },
-          ),
-          ListTile(
-            leading: Image.asset('images/mx.png'),
-            title: Text('www.amazon.com.mx'),
-            onTap: () {
-              Navigator.pop(context, 'www.amazon.com.mx');
-            },
-          ),
-          ListTile(
-            leading: Image.asset('images/au.png'),
-            title: Text('www.amazon.com.au'),
-            onTap: () {
-              Navigator.pop(context, 'www.amazon.com.au');
-            },
-          ),
-          ListTile(
-            leading: Image.asset('images/fr.png'),
-            title: Text('www.amazon.fr'),
-            onTap: () {
-              Navigator.pop(context, 'www.amazon.fr');
-            },
-          ),
-          ListTile(
-            leading: Image.asset('images/gb.png'),
-            title: Text('www.amazon.co.uk'),
-            onTap: () {
-              Navigator.pop(context, 'www.amazon.co.uk');
-            },
-          ),
-          ListTile(
-            leading: Image.asset('images/in.png'),
-            title: Text('www.amazon.in'),
-            onTap: () {
-              Navigator.pop(context, 'www.amazon.in');
-            },
-          ),
-          ListTile(
-            leading: Image.asset('images/sg.png'),
-            title: Text('www.amazon.sg'),
-            onTap: () {
-              Navigator.pop(context, 'www.amazon.sg');
-            },
-          ),
-          ListTile(
-            leading: Image.asset('images/us.png'),
-            title: Text('www.amazon.com'),
-            onTap: () {
-              Navigator.pop(context, 'www.amazon.com');
-            },
-          ),
-          ListTile(
-            leading: Image.asset('images/sa.png'),
-            title: Text('www.amazon.sa'),
-            onTap: () {
-              Navigator.pop(context, 'www.amazon.sa');
-            },
-          ),
-          ListTile(
-            leading: Image.asset('images/it.png'),
-            title: Text('www.amazon.it'),
-            onTap: () {
-              Navigator.pop(context, 'www.amazon.it');
-            },
-          ),
-          ListTile(
-            leading: Image.asset('images/br.png'),
-            title: Text('www.amazon.com.br'),
-            onTap: () {
-              Navigator.pop(context, 'www.amazon.com.br');
-            },
-          ),
-          ListTile(
-            leading: Image.asset('images/ca.png'),
-            title: Text('www.amazon.ca'),
-            onTap: () {
-              Navigator.pop(context, 'www.amazon.ca');
-            },
-          ),
-          ListTile(
-            leading: Image.asset('images/nl.png'),
-            title: Text('www.amazon.nl'),
-            onTap: () {
-              Navigator.pop(context, 'www.amazon.nl');
-            },
-          ),
-          ListTile(
-            leading: Image.asset('images/de.png'),
-            title: Text('www.amazon.de'),
-            onTap: () {
-              Navigator.pop(context, 'www.amazon.de');
-            },
-          ),
-          ListTile(
-            leading: Image.asset('images/se.png'),
-            title: Text('www.amazon.se'),
-            onTap: () {
-              Navigator.pop(context, 'www.amazon.se');
-            },
-          ),
-          ListTile(
-            leading: Image.asset('images/ae.png'),
-            title: Text('www.amazon.ae'),
-            onTap: () {
-              Navigator.pop(context, 'www.amazon.ae');
-            },
-          ),
-        ],
+        ),
+        body: ListView(
+          padding: EdgeInsets.all(16.0),
+          children: <Widget>[
+            ListTile(
+              leading: Image.asset('images/tr.png'),
+              title: Text('www.amazon.com.tr'),
+              onTap: () {
+                Navigator.pop(context, 'www.amazon.com.tr');
+              },
+            ),
+            ListTile(
+              leading: Image.asset('images/jp.png'),
+              title: Text('www.amazon.co.jp'),
+              onTap: () {
+                Navigator.pop(context, 'www.amazon.co.jp');
+              },
+            ),
+            ListTile(
+              leading: Image.asset('images/cn.png'),
+              title: Text('www.amazon.cn'),
+              onTap: () {
+                Navigator.pop(context, 'www.amazon.cn');
+              },
+            ),
+            ListTile(
+              leading: Image.asset('images/es.png'),
+              title: Text('www.amazon.es'),
+              onTap: () {
+                Navigator.pop(context, 'www.amazon.es');
+              },
+            ),
+            ListTile(
+              leading: Image.asset('images/mx.png'),
+              title: Text('www.amazon.com.mx'),
+              onTap: () {
+                Navigator.pop(context, 'www.amazon.com.mx');
+              },
+            ),
+            ListTile(
+              leading: Image.asset('images/au.png'),
+              title: Text('www.amazon.com.au'),
+              onTap: () {
+                Navigator.pop(context, 'www.amazon.com.au');
+              },
+            ),
+            ListTile(
+              leading: Image.asset('images/fr.png'),
+              title: Text('www.amazon.fr'),
+              onTap: () {
+                Navigator.pop(context, 'www.amazon.fr');
+              },
+            ),
+            ListTile(
+              leading: Image.asset('images/gb.png'),
+              title: Text('www.amazon.co.uk'),
+              onTap: () {
+                Navigator.pop(context, 'www.amazon.co.uk');
+              },
+            ),
+            ListTile(
+              leading: Image.asset('images/in.png'),
+              title: Text('www.amazon.in'),
+              onTap: () {
+                Navigator.pop(context, 'www.amazon.in');
+              },
+            ),
+            ListTile(
+              leading: Image.asset('images/sg.png'),
+              title: Text('www.amazon.sg'),
+              onTap: () {
+                Navigator.pop(context, 'www.amazon.sg');
+              },
+            ),
+            ListTile(
+              leading: Image.asset('images/us.png'),
+              title: Text('www.amazon.com'),
+              onTap: () {
+                Navigator.pop(context, 'www.amazon.com');
+              },
+            ),
+            ListTile(
+              leading: Image.asset('images/sa.png'),
+              title: Text('www.amazon.sa'),
+              onTap: () {
+                Navigator.pop(context, 'www.amazon.sa');
+              },
+            ),
+            ListTile(
+              leading: Image.asset('images/it.png'),
+              title: Text('www.amazon.it'),
+              onTap: () {
+                Navigator.pop(context, 'www.amazon.it');
+              },
+            ),
+            ListTile(
+              leading: Image.asset('images/br.png'),
+              title: Text('www.amazon.com.br'),
+              onTap: () {
+                Navigator.pop(context, 'www.amazon.com.br');
+              },
+            ),
+            ListTile(
+              leading: Image.asset('images/ca.png'),
+              title: Text('www.amazon.ca'),
+              onTap: () {
+                Navigator.pop(context, 'www.amazon.ca');
+              },
+            ),
+            ListTile(
+              leading: Image.asset('images/nl.png'),
+              title: Text('www.amazon.nl'),
+              onTap: () {
+                Navigator.pop(context, 'www.amazon.nl');
+              },
+            ),
+            ListTile(
+              leading: Image.asset('images/de.png'),
+              title: Text('www.amazon.de'),
+              onTap: () {
+                Navigator.pop(context, 'www.amazon.de');
+              },
+            ),
+            ListTile(
+              leading: Image.asset('images/se.png'),
+              title: Text('www.amazon.se'),
+              onTap: () {
+                Navigator.pop(context, 'www.amazon.se');
+              },
+            ),
+            ListTile(
+              leading: Image.asset('images/ae.png'),
+              title: Text('www.amazon.ae'),
+              onTap: () {
+                Navigator.pop(context, 'www.amazon.ae');
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
