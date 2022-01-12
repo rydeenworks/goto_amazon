@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:goto_amazon/services/admob.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  MobileAds.instance.initialize();
   runApp(MyApp());
 }
 
@@ -21,7 +25,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key? key, required this.title}) : super(key: key);
   final String title;
 
   @override
@@ -33,8 +37,8 @@ class _MyHomePageState extends State<MyHomePage> {
   final _iconSize = 42.0;
   final _biggerFont = TextStyle(fontWeight: FontWeight.bold, fontSize: 16);
   String _sortType = '&s=relevanceblender';
-  void _handleRadioSort(String e) => setState(() {
-        _sortType = e;
+  void _handleRadioSort(String? e) => setState(() {
+        _sortType = e ?? '&s=relevanceblender';
       });
 
   String _textSearch = '';
@@ -68,15 +72,32 @@ class _MyHomePageState extends State<MyHomePage> {
     "www.amazon.ae": "ae",
   };
 
+  // バナー広告をインスタンス化
+  BannerAd myBanner = BannerAd(
+    adUnitId: AdMobService().getBannerAdUnitId(),
+    size: AdSize.banner,
+    request: const AdRequest(),
+    listener: const BannerAdListener(),
+  );
+
   @override
   Widget build(BuildContext context) {
+    // バナー広告の読み込み
+    myBanner.load();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
       body: ListView(
-        padding: EdgeInsets.all(16.0),
+        padding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
         children: <Widget>[
+          Container(
+            color: Colors.white,
+            height: 64.0,
+            width: double.infinity,
+            child: AdWidget(ad: myBanner),
+          ),
           Container(
             color: Colors.orange,
             padding: EdgeInsets.all(6),
@@ -91,7 +112,8 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             margin: EdgeInsets.all(6),
             child: ListTile(
-              leading: Image.asset('images/' + country[_worldUrl] + '.png'),
+              leading: Image.asset(
+                  'images/' + (country[_worldUrl] ?? "jp") + '.png'),
               title: Text('$_worldUrl'),
               onTap: () async {
                 final result = await Navigator.push(
@@ -217,6 +239,7 @@ class WorldRoute extends StatelessWidget {
     return WillPopScope(
       onWillPop: () async {
         Navigator.pop(context, "");
+        return true;
       },
       child: Scaffold(
         appBar: AppBar(
